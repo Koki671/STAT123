@@ -1,0 +1,59 @@
+---
+title: "Stat 123 Lab1"
+author: "Koki Itagaki"
+date: "2023-01-17"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+#Question 1
+```{r courses}
+#Create a vector courses
+courses<-c("seng 265","Stat 354","Stat 359","Stat 123")
+#Print out the elements of the vector.
+courses
+#Print out the 2nd element of the vector
+courses[2]
+```
+
+#Question 2
+```{r numbers}
+#Create a vector called nums which contains the numbers 4, 5, 6, 7, …, 154, 155.
+
+nums<-c(4:155)
+#(a) Use the sum() function to add all the values in nums.
+sum(nums)
+
+#(b) Use the mean() function to find the average of all values in nums.
+mean(nums)
+
+
+#(c) Use the prod() function to find the product of all values in nums.
+prod(nums)
+```
+
+
+```{r}
+#3. Create a vector called sleep which contains how many hours of sleep you get on each day of the week 
+sleep<-c(8,5,6,4,4,5,6)
+#(a) Create a vector called days which contains the names of the days of the week (starting with Monday).
+days<-c("Monday","Tuesday","Wednesday","Thursday", "Friday")
+
+#(b) Print out the mean of your sleep hours during workdays (Monday to Friday).
+mean(sleep)
+#(c) Print out the length of the days vector.
+length(days)
+
+
+```
+
+
+

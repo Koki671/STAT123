@@ -1,0 +1,101 @@
+---
+title: "lab9_stat123"
+author: "Koki Itagaki"
+date: "2023-03-21"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#1. Load the sales.csv dataset into R and save it to df.
+
+
+```{r}
+df<-read.csv("/Users/itagakikouki/stat123/lab9/sales.csv")
+head(df)
+year<-df$year
+sales<-df$sales
+month<-df$month
+#(a) Define the relationship between month and sales in df. Please identify direction, form, and strength of the relationship.
+plot(year, sales)
+cor(year,sales)
+
+
+#direction is increasing,the form is linear 
+#and this is strong trelationship.
+
+
+
+
+#(b) Perform a linear regression sales (y) and year (x1) and month(x2).
+model<-lm(sales~year+month)
+
+
+#(c) Predict the sales in March 2010.
+#we know exp_y = -1141 + 5.599*year + 1.155*month
+y = -11141.030 + 5.599*2010 + 1.155*3
+coef = as.matrix(round(model$coefficients,3))
+coef
+y = coef[1] + coef[2]*2010 + coef[3]*3
+cat(y,"is an expected value")
+
+```
+
+#2. Use the built-in data set HairEyeColor to answer this question.
+```{r}
+#(a) Create a single table called hair_eye_totals which summarizes the total number of statistics students with each combination of hair and eye colour. Note: The built-in data set consists of two tables with this information (one for women and one for men). The answer to part (a) is a single table combining the information from these two tables.
+data("HairEyeColor")
+HairEyeColor
+dim(HairEyeColor)
+#male female tgt
+hair_eye_totals = HairEyeColor[,,1] + HairEyeColor[,,2]
+
+#(b) Print out the hair_eye_totals table.
+print(hair_eye_totals)
+
+#(c) Create a grouped bar plot which displays the information from the hair_eye_totals table. Your plot should include the following: - a main title - titles for the x-axis and y-axis - colours to help differentiate the bars - a legend to identify what each colour represents
+#xaxis is eye color
+barplot(hair_eye_totals,main = "combination of hair and eye colour",xlab = "Eye color and hair colour",ylab ="frequency" ,col = rainbow(length(hair_eye_totals)),legend = rownames(hair_eye_totals),beside = T)
+
+#(d) Create and print out a vector called percent_eye which contains the percent of statistics students with each eye colour (rounded to 2 decimal places). Show any additional code needed to create this vector.
+eyetotal = colSums(hair_eye_totals)
+
+percent_eye =round(eyetotal/sum(eyetotal)*100,2)
+eye_label<- paste(names(percent_eye),percent_eye,"%")
+
+
+#(e) Create a pie chart displaying the information in the percent_eye vector. Your graph should include:- a main title- labels for each wedge displaying the eye colour- a different colour for each eye colour - the percentages displaying next to each wedge.
+  pie(percent_eye, main = "eye colour od students", labels = eye_label,col = rainbow(length(percent_eye)))
+
+```
+
+3. Use the mtcars data set in R to answer this question.
+```{r}
+data(mtcars)
+dim(mtcars)
+head(mtcars)
+#(a) Create a multi regression model for predicting miles per gallon (mpg) using weight (wt) and horsepower (hp).
+model<-lm(mpg~wt + hp, data = mtcars)
+summary(model)
+
+
+
+#(b) What is the interpretation of the coefficient estimates for the linear regression model part(a), which predicted miles per gallon (mpg) using weight (wt) and horsepower (hp) as predictor variables
+
+"The intercept coefficient of 37.22727 represents the predicted mpg when both wt and hp are zero. Which is not meaningful scenario but is included in the model for completeness."
+
+#The wt coefficient indicates that for every one-unit increase in wt.
+#The predicted mpg decreases by approximately 3.92. holding hp constant.
+
+#The hp coefficient -0.03177 of indicates that for every one-unit increases in hp, the predicted mpg decreases by approximately 0.02, holding wt constant.
+
+
+
+```
+
+

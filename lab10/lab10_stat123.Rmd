@@ -1,0 +1,86 @@
+---
+title: "lab10_stat123"
+author: "Koki Itagaki"
+date: "2023-03-28"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Install the following packages: "dplyr", "ggplot2", "corrplot", "car", "lmtest", and "caret". Then load
+the dataset "stock-Canada.csv". You can find a description of the dataset in the file "stock-dictionary.csv".
+Your task is to predict the value of the stock. Please explain the output, your solutions, and the given
+codes.
+```{r}
+library("dplyr")
+library("ggplot2")
+dairy_sttocks<-read.csv(file ="/Users/itagakikouki/stat123/lab10/stock-Canada.csv")
+dim(dairy_sttocks)
+head(dairy_sttocks)
+#(a) Clean the data by removing null and missing values. You may also choose to remove columns that have a high number of missing values.
+#(b) Convert the "REF_DATE" column to a date format using the "mutate()" function as follows:mutate(REF_DATE = as.Date(paste0(REF_DATE, "-01"), format = "%Y-%m-%d"))
+#Note: This code uses the dplyr package's "mutate()" function to create a new column called
+#"REF_DATE" in a dataframe, where "REF_DATE" is an existing column in the same dataframe.
+#The purpose of this code is to convert the "REF_DATE" column, which is currently in a characterformat, into a date format. The "as.Date()" function is used to convert the character strings in the "REF_DATE" column into
+#date format. The "paste0()" function is used to concatenate the year-month values in the
+#"REF_DATE" column with "-01", which represents the first day of the month, creating a new
+#string in the format "YYYY-MM-01". This new string is then passed to the "as.Date()" function as the first argument, which converts it to a date format.
+#The "format" argument in the "as.Date()" function is used to specify the format of the input string. In this case, the format is "%Y-%m-%d", which indicates that the input string is in the format"YYYY-MM-DD". Since the input string only contains the year and month, "-01" is added to represent the first day of the month.
+
+dairy_sttocks<- dairy_sttocks%>%
+  select(REF_DATE,GEO,Stocks,Commodity,VALUE)%>%
+  mutate(REF_DATE = as.Date(paste0(REF_DATE,"-01"), format = "%Y-%m-%d"))
+dim(dairy_sttocks)
+head(dairy_sttocks)
+#SO many NA's
+summary(dairy_sttocks$VALUE)
+#Since NA exists
+sd(dairy_sttocks$VALUE)
+#remove na
+dairy_sttocks<-na.omit(dairy_sttocks)
+
+
+
+#(c) Process the data using the "summary()" function and calculate the standard deviation for the column that has numeric values.
+summary(dairy_sttocks$VALUE)
+sd(dairy_sttocks$VALUE)
+#(d) Use the "ggplot()" function to visualize the relationship between each column and the value of the stock.
+ggplot(data = dairy_sttocks, aes(x = REF_DATE, y = VALUE)) + geom_line() + labs(x = "Date", y = "Stocks (Tonnes)", title = "Relationship between date and stock value")
+
+ggplot(dairy_sttocks, mapping = aes(x = REF_DATE, y = VALUE)) + geom_line() +labs(x = "Date", y = "Stocks(Tonnes)", title = "Relationship between date and stock value") +
+  coord_flip()
+
+#(e) Split the data into 80% train and 20% test using the following code:
+# Split the data into training and test sets
+set.seed(2023)
+ train_index<- sample(1:nrow(dairy_sttocks),size = round(0.8*nrow(dairy_sttocks)))
+ train_data<-dairy_sttocks[train_index, ]
+ test_data<- dairy_sttocks[-train_index,]
+
+#set.seed(123)
+#train_index <- sample(1:nrow(dairy_stocks), size = round(0.8 * nrow(dairy_stocks)))
+#train_data <- dairy_stocks[train_index,]
+#test_data <- dairy_stocks[-train_index,]
+#Note: To split the data, you can use the sample() function and specify the percentage of data in each split. For example, "size = round(0.8 * nrow(dairy_stocks))" means 80% of the data will be used for training, and the rest will be used for testing.
+#(f) Build a multiple linear regression model to predict the value of the stock. The data type of some columns is not numerical (they are categorical). It is acceptable to consider those columns in the model, but in a data science project, you need to consider the data type.
+ model1<-lm(VALUE~REF_DATE +GEO + Stocks + Commodity, data = train_data)
+ model1
+ summary(model1)
+
+#(g) Identify variables that should be removed from the model.
+ cat("The p value of GEOAtlantic provinces is 0.766957 which is higher than
+     a = 0.05. So I remove it")
+
+
+
+
+
+
+
+```
+
+

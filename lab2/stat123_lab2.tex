@@ -1,0 +1,503 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Stat123 lab2},
+  pdfauthor={Koki Itagaki},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Stat123 lab2}
+\author{Koki Itagaki}
+\date{2023-01-25}
+
+\begin{document}
+\maketitle
+
+\#1. Download the ClinicalTrial dataset posted under Lab Content in
+Brightspace (under Lab 2) \#and save it to whatever file you are using
+for this course.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(a)Read the ClinicalTrial file into R and call it BasicCharacteristics}
+\NormalTok{BasicCharacteristics}\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"/Users/itagakikouki/stat123/ClinicalTrial.csv"}\NormalTok{)}
+
+\NormalTok{BasicCharacteristics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     PATIENT_ID    SEX  AGE    SMOKE_STATUS WEIGHT
+## 1  100_1001001   Male <=50  Current_Smoker   54.7
+## 2  100_1001002   Male <=50  Current_Smoker   51.0
+## 3  101_1011001 Female  >50 Previous_Smoker   57.4
+## 4  101_1011002   Male  >50  Current_Smoker   70.9
+## 5  102_1021001   Male <=50  Current_Smoker   51.0
+## 6  103_1031001 Female  >50 Previous_Smoker   66.0
+## 7  103_1031002 Female <=50  Current_Smoker   86.0
+## 8  104_1041001   Male  >50  Current_Smoker  101.5
+## 9  105_1051001   Male  >50  Current_Smoker   65.2
+## 10 106_1061001   Male  >50  Current_Smoker   64.8
+## 11 107_1071001 Female <=50 Previous_Smoker   83.0
+## 12 107_1071002 Female  >50  Current_Smoker   80.0
+## 13 107_1071003   Male  >50 Previous_Smoker   58.4
+## 14 107_1071004 Female <=50  Current_Smoker   91.9
+## 15 108_1081001 Female  >50  Current_Smoker   88.8
+## 16 109_1091001 Female <=50 Previous_Smoker   75.0
+## 17 109_1091002 Female <=50  Current_Smoker   73.0
+## 18 109_1091003   Male  >50 Previous_Smoker   52.0
+## 19 110_1101001 Female  >50  Current_Smoker   64.3
+## 20 111_1111001   Male  >50 Previous_Smoker   55.0
+## 21 111_1111002   Male <=50 Previous_Smoker   64.0
+## 22 111_1111003   Male <=50  Current_Smoker   80.0
+## 23 112_1121001 Female <=50  Current_Smoker   80.0
+## 24 112_1121002 Female <=50 Previous_Smoker   97.0
+## 25 113_1131001 Female  >50 Previous_Smoker   75.1
+## 26 113_1131002 Female  >50  Current_Smoker   80.2
+## 27 113_1131003 Female  >50  Current_Smoker   67.8
+## 28 114_1141001   Male <=50  Current_Smoker   61.0
+## 29 114_1141002 Female  >50  Current_Smoker   85.0
+## 30 114_1141003 Female  >50  Current_Smoker   84.0
+## 31 115_1151001   Male <=50 Previous_Smoker   65.0
+## 32 115_1151002 Female <=50  Current_Smoker  109.0
+## 33 116_1161001   Male  >50 Previous_Smoker   50.0
+## 34 117_1171001 Female <=50 Previous_Smoker   62.0
+## 35 117_1171002 Female <=50  Current_Smoker   92.0
+## 36 118_1181001 Female  >50  Current_Smoker   72.0
+## 37 119_1191001 Female  >50 Previous_Smoker   66.0
+## 38 119_1191002 Female  >50 Previous_Smoker   85.0
+## 39 120_1201001 Female <=50      Non_Smoker   51.2
+## 40 120_1201002   Male <=50      Non_Smoker   49.0
+## 41 120_1201003 Female  >50  Current_Smoker   56.0
+## 42 121_1211001 Female <=50      Non_Smoker   64.0
+## 43 121_1211002 Female  >50      Non_Smoker   81.0
+## 44 122_1221001 Female <=50 Previous_Smoker   71.0
+## 45 123_1231001 Female  >50 Previous_Smoker   92.0
+## 46 123_1231002   Male  >50      Non_Smoker   75.0
+## 47 124_1241001   Male <=50      Non_Smoker   70.0
+## 48 124_1241002 Female <=50 Previous_Smoker   87.0
+## 49 124_1241003 Female <=50  Current_Smoker   82.0
+## 50 124_1241004 Female <=50  Current_Smoker   74.0
+## 51 125_1251001   Male  >50  Current_Smoker   77.0
+## 52 125_1251002 Female <=50  Current_Smoker   58.0
+## 53 126_1261001 Female <=50  Current_Smoker   84.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(b) Print the type of BasicCharacteristics using class() function}
+\FunctionTok{class}\NormalTok{(BasicCharacteristics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(c) How many rows and columns are there in the BasicCharacteristics.}
+\FunctionTok{dim}\NormalTok{(BasicCharacteristics)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 53  5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#nrow(),ncol() is also possible}
+
+
+\CommentTok{\#(d) Add a new row (127\_1271001, Female, \textgreater{}50, Current\_Smoker, 90) to the BasicCharacteristics.}
+
+\NormalTok{BasicCharacteristics}\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(BasicCharacteristics, }\FunctionTok{c}\NormalTok{ (}\StringTok{"127\_1271001"}\NormalTok{, }\StringTok{"Female"}\NormalTok{, }\StringTok{"\textgreater{}50"}\NormalTok{, }\StringTok{"Current\_Smoker"}\NormalTok{, }\DecValTok{90}\NormalTok{))}
+\NormalTok{BasicCharacteristics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     PATIENT_ID    SEX  AGE    SMOKE_STATUS WEIGHT
+## 1  100_1001001   Male <=50  Current_Smoker   54.7
+## 2  100_1001002   Male <=50  Current_Smoker     51
+## 3  101_1011001 Female  >50 Previous_Smoker   57.4
+## 4  101_1011002   Male  >50  Current_Smoker   70.9
+## 5  102_1021001   Male <=50  Current_Smoker     51
+## 6  103_1031001 Female  >50 Previous_Smoker     66
+## 7  103_1031002 Female <=50  Current_Smoker     86
+## 8  104_1041001   Male  >50  Current_Smoker  101.5
+## 9  105_1051001   Male  >50  Current_Smoker   65.2
+## 10 106_1061001   Male  >50  Current_Smoker   64.8
+## 11 107_1071001 Female <=50 Previous_Smoker     83
+## 12 107_1071002 Female  >50  Current_Smoker     80
+## 13 107_1071003   Male  >50 Previous_Smoker   58.4
+## 14 107_1071004 Female <=50  Current_Smoker   91.9
+## 15 108_1081001 Female  >50  Current_Smoker   88.8
+## 16 109_1091001 Female <=50 Previous_Smoker     75
+## 17 109_1091002 Female <=50  Current_Smoker     73
+## 18 109_1091003   Male  >50 Previous_Smoker     52
+## 19 110_1101001 Female  >50  Current_Smoker   64.3
+## 20 111_1111001   Male  >50 Previous_Smoker     55
+## 21 111_1111002   Male <=50 Previous_Smoker     64
+## 22 111_1111003   Male <=50  Current_Smoker     80
+## 23 112_1121001 Female <=50  Current_Smoker     80
+## 24 112_1121002 Female <=50 Previous_Smoker     97
+## 25 113_1131001 Female  >50 Previous_Smoker   75.1
+## 26 113_1131002 Female  >50  Current_Smoker   80.2
+## 27 113_1131003 Female  >50  Current_Smoker   67.8
+## 28 114_1141001   Male <=50  Current_Smoker     61
+## 29 114_1141002 Female  >50  Current_Smoker     85
+## 30 114_1141003 Female  >50  Current_Smoker     84
+## 31 115_1151001   Male <=50 Previous_Smoker     65
+## 32 115_1151002 Female <=50  Current_Smoker    109
+## 33 116_1161001   Male  >50 Previous_Smoker     50
+## 34 117_1171001 Female <=50 Previous_Smoker     62
+## 35 117_1171002 Female <=50  Current_Smoker     92
+## 36 118_1181001 Female  >50  Current_Smoker     72
+## 37 119_1191001 Female  >50 Previous_Smoker     66
+## 38 119_1191002 Female  >50 Previous_Smoker     85
+## 39 120_1201001 Female <=50      Non_Smoker   51.2
+## 40 120_1201002   Male <=50      Non_Smoker     49
+## 41 120_1201003 Female  >50  Current_Smoker     56
+## 42 121_1211001 Female <=50      Non_Smoker     64
+## 43 121_1211002 Female  >50      Non_Smoker     81
+## 44 122_1221001 Female <=50 Previous_Smoker     71
+## 45 123_1231001 Female  >50 Previous_Smoker     92
+## 46 123_1231002   Male  >50      Non_Smoker     75
+## 47 124_1241001   Male <=50      Non_Smoker     70
+## 48 124_1241002 Female <=50 Previous_Smoker     87
+## 49 124_1241003 Female <=50  Current_Smoker     82
+## 50 124_1241004 Female <=50  Current_Smoker     74
+## 51 125_1251001   Male  >50  Current_Smoker     77
+## 52 125_1251002 Female <=50  Current_Smoker     58
+## 53 126_1261001 Female <=50  Current_Smoker     84
+## 54 127_1271001 Female  >50  Current_Smoker     90
+\end{verbatim}
+
+\#2. Create a matrix called PatientsMatrix which contains the WEIGHT
+column of BasicCharacteristics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PatientsMatrix}\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(BasicCharacteristics)}
+\NormalTok{PatientsMatrix}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       PATIENT_ID    SEX      AGE    SMOKE_STATUS      WEIGHT 
+##  [1,] "100_1001001" "Male"   "<=50" "Current_Smoker"  "54.7" 
+##  [2,] "100_1001002" "Male"   "<=50" "Current_Smoker"  "51"   
+##  [3,] "101_1011001" "Female" ">50"  "Previous_Smoker" "57.4" 
+##  [4,] "101_1011002" "Male"   ">50"  "Current_Smoker"  "70.9" 
+##  [5,] "102_1021001" "Male"   "<=50" "Current_Smoker"  "51"   
+##  [6,] "103_1031001" "Female" ">50"  "Previous_Smoker" "66"   
+##  [7,] "103_1031002" "Female" "<=50" "Current_Smoker"  "86"   
+##  [8,] "104_1041001" "Male"   ">50"  "Current_Smoker"  "101.5"
+##  [9,] "105_1051001" "Male"   ">50"  "Current_Smoker"  "65.2" 
+## [10,] "106_1061001" "Male"   ">50"  "Current_Smoker"  "64.8" 
+## [11,] "107_1071001" "Female" "<=50" "Previous_Smoker" "83"   
+## [12,] "107_1071002" "Female" ">50"  "Current_Smoker"  "80"   
+## [13,] "107_1071003" "Male"   ">50"  "Previous_Smoker" "58.4" 
+## [14,] "107_1071004" "Female" "<=50" "Current_Smoker"  "91.9" 
+## [15,] "108_1081001" "Female" ">50"  "Current_Smoker"  "88.8" 
+## [16,] "109_1091001" "Female" "<=50" "Previous_Smoker" "75"   
+## [17,] "109_1091002" "Female" "<=50" "Current_Smoker"  "73"   
+## [18,] "109_1091003" "Male"   ">50"  "Previous_Smoker" "52"   
+## [19,] "110_1101001" "Female" ">50"  "Current_Smoker"  "64.3" 
+## [20,] "111_1111001" "Male"   ">50"  "Previous_Smoker" "55"   
+## [21,] "111_1111002" "Male"   "<=50" "Previous_Smoker" "64"   
+## [22,] "111_1111003" "Male"   "<=50" "Current_Smoker"  "80"   
+## [23,] "112_1121001" "Female" "<=50" "Current_Smoker"  "80"   
+## [24,] "112_1121002" "Female" "<=50" "Previous_Smoker" "97"   
+## [25,] "113_1131001" "Female" ">50"  "Previous_Smoker" "75.1" 
+## [26,] "113_1131002" "Female" ">50"  "Current_Smoker"  "80.2" 
+## [27,] "113_1131003" "Female" ">50"  "Current_Smoker"  "67.8" 
+## [28,] "114_1141001" "Male"   "<=50" "Current_Smoker"  "61"   
+## [29,] "114_1141002" "Female" ">50"  "Current_Smoker"  "85"   
+## [30,] "114_1141003" "Female" ">50"  "Current_Smoker"  "84"   
+## [31,] "115_1151001" "Male"   "<=50" "Previous_Smoker" "65"   
+## [32,] "115_1151002" "Female" "<=50" "Current_Smoker"  "109"  
+## [33,] "116_1161001" "Male"   ">50"  "Previous_Smoker" "50"   
+## [34,] "117_1171001" "Female" "<=50" "Previous_Smoker" "62"   
+## [35,] "117_1171002" "Female" "<=50" "Current_Smoker"  "92"   
+## [36,] "118_1181001" "Female" ">50"  "Current_Smoker"  "72"   
+## [37,] "119_1191001" "Female" ">50"  "Previous_Smoker" "66"   
+## [38,] "119_1191002" "Female" ">50"  "Previous_Smoker" "85"   
+## [39,] "120_1201001" "Female" "<=50" "Non_Smoker"      "51.2" 
+## [40,] "120_1201002" "Male"   "<=50" "Non_Smoker"      "49"   
+## [41,] "120_1201003" "Female" ">50"  "Current_Smoker"  "56"   
+## [42,] "121_1211001" "Female" "<=50" "Non_Smoker"      "64"   
+## [43,] "121_1211002" "Female" ">50"  "Non_Smoker"      "81"   
+## [44,] "122_1221001" "Female" "<=50" "Previous_Smoker" "71"   
+## [45,] "123_1231001" "Female" ">50"  "Previous_Smoker" "92"   
+## [46,] "123_1231002" "Male"   ">50"  "Non_Smoker"      "75"   
+## [47,] "124_1241001" "Male"   "<=50" "Non_Smoker"      "70"   
+## [48,] "124_1241002" "Female" "<=50" "Previous_Smoker" "87"   
+## [49,] "124_1241003" "Female" "<=50" "Current_Smoker"  "82"   
+## [50,] "124_1241004" "Female" "<=50" "Current_Smoker"  "74"   
+## [51,] "125_1251001" "Male"   ">50"  "Current_Smoker"  "77"   
+## [52,] "125_1251002" "Female" "<=50" "Current_Smoker"  "58"   
+## [53,] "126_1261001" "Female" "<=50" "Current_Smoker"  "84"   
+## [54,] "127_1271001" "Female" ">50"  "Current_Smoker"  "90"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PatientsMatrix[}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    PATIENT_ID 
+## "101_1011001"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(a) Re{-}name the column of PatientsMatrix to WEIGHT.}
+\CommentTok{\#colnames(PatientsMatrix)\textless{}{-} c("WEIGHT", "WEIGHT","WEIGHT","WEIGHT","WEIGHT")}
+\NormalTok{PatientsMatrix}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       PATIENT_ID    SEX      AGE    SMOKE_STATUS      WEIGHT 
+##  [1,] "100_1001001" "Male"   "<=50" "Current_Smoker"  "54.7" 
+##  [2,] "100_1001002" "Male"   "<=50" "Current_Smoker"  "51"   
+##  [3,] "101_1011001" "Female" ">50"  "Previous_Smoker" "57.4" 
+##  [4,] "101_1011002" "Male"   ">50"  "Current_Smoker"  "70.9" 
+##  [5,] "102_1021001" "Male"   "<=50" "Current_Smoker"  "51"   
+##  [6,] "103_1031001" "Female" ">50"  "Previous_Smoker" "66"   
+##  [7,] "103_1031002" "Female" "<=50" "Current_Smoker"  "86"   
+##  [8,] "104_1041001" "Male"   ">50"  "Current_Smoker"  "101.5"
+##  [9,] "105_1051001" "Male"   ">50"  "Current_Smoker"  "65.2" 
+## [10,] "106_1061001" "Male"   ">50"  "Current_Smoker"  "64.8" 
+## [11,] "107_1071001" "Female" "<=50" "Previous_Smoker" "83"   
+## [12,] "107_1071002" "Female" ">50"  "Current_Smoker"  "80"   
+## [13,] "107_1071003" "Male"   ">50"  "Previous_Smoker" "58.4" 
+## [14,] "107_1071004" "Female" "<=50" "Current_Smoker"  "91.9" 
+## [15,] "108_1081001" "Female" ">50"  "Current_Smoker"  "88.8" 
+## [16,] "109_1091001" "Female" "<=50" "Previous_Smoker" "75"   
+## [17,] "109_1091002" "Female" "<=50" "Current_Smoker"  "73"   
+## [18,] "109_1091003" "Male"   ">50"  "Previous_Smoker" "52"   
+## [19,] "110_1101001" "Female" ">50"  "Current_Smoker"  "64.3" 
+## [20,] "111_1111001" "Male"   ">50"  "Previous_Smoker" "55"   
+## [21,] "111_1111002" "Male"   "<=50" "Previous_Smoker" "64"   
+## [22,] "111_1111003" "Male"   "<=50" "Current_Smoker"  "80"   
+## [23,] "112_1121001" "Female" "<=50" "Current_Smoker"  "80"   
+## [24,] "112_1121002" "Female" "<=50" "Previous_Smoker" "97"   
+## [25,] "113_1131001" "Female" ">50"  "Previous_Smoker" "75.1" 
+## [26,] "113_1131002" "Female" ">50"  "Current_Smoker"  "80.2" 
+## [27,] "113_1131003" "Female" ">50"  "Current_Smoker"  "67.8" 
+## [28,] "114_1141001" "Male"   "<=50" "Current_Smoker"  "61"   
+## [29,] "114_1141002" "Female" ">50"  "Current_Smoker"  "85"   
+## [30,] "114_1141003" "Female" ">50"  "Current_Smoker"  "84"   
+## [31,] "115_1151001" "Male"   "<=50" "Previous_Smoker" "65"   
+## [32,] "115_1151002" "Female" "<=50" "Current_Smoker"  "109"  
+## [33,] "116_1161001" "Male"   ">50"  "Previous_Smoker" "50"   
+## [34,] "117_1171001" "Female" "<=50" "Previous_Smoker" "62"   
+## [35,] "117_1171002" "Female" "<=50" "Current_Smoker"  "92"   
+## [36,] "118_1181001" "Female" ">50"  "Current_Smoker"  "72"   
+## [37,] "119_1191001" "Female" ">50"  "Previous_Smoker" "66"   
+## [38,] "119_1191002" "Female" ">50"  "Previous_Smoker" "85"   
+## [39,] "120_1201001" "Female" "<=50" "Non_Smoker"      "51.2" 
+## [40,] "120_1201002" "Male"   "<=50" "Non_Smoker"      "49"   
+## [41,] "120_1201003" "Female" ">50"  "Current_Smoker"  "56"   
+## [42,] "121_1211001" "Female" "<=50" "Non_Smoker"      "64"   
+## [43,] "121_1211002" "Female" ">50"  "Non_Smoker"      "81"   
+## [44,] "122_1221001" "Female" "<=50" "Previous_Smoker" "71"   
+## [45,] "123_1231001" "Female" ">50"  "Previous_Smoker" "92"   
+## [46,] "123_1231002" "Male"   ">50"  "Non_Smoker"      "75"   
+## [47,] "124_1241001" "Male"   "<=50" "Non_Smoker"      "70"   
+## [48,] "124_1241002" "Female" "<=50" "Previous_Smoker" "87"   
+## [49,] "124_1241003" "Female" "<=50" "Current_Smoker"  "82"   
+## [50,] "124_1241004" "Female" "<=50" "Current_Smoker"  "74"   
+## [51,] "125_1251001" "Male"   ">50"  "Current_Smoker"  "77"   
+## [52,] "125_1251002" "Female" "<=50" "Current_Smoker"  "58"   
+## [53,] "126_1261001" "Female" "<=50" "Current_Smoker"  "84"   
+## [54,] "127_1271001" "Female" ">50"  "Current_Smoker"  "90"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(b) Determine the weight over 80 in the PatientsMatrix.}
+\NormalTok{PatientsMatrix[PatientsMatrix[, }\StringTok{"WEIGHT"}\NormalTok{]}\SpecialCharTok{\textgreater{}} \DecValTok{80}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "103_1031002"     "107_1071001"     "107_1071004"     "108_1081001"    
+##  [5] "112_1121002"     "113_1131002"     "114_1141002"     "114_1141003"    
+##  [9] "117_1171002"     "119_1191002"     "121_1211002"     "123_1231001"    
+## [13] "124_1241002"     "124_1241003"     "126_1261001"     "127_1271001"    
+## [17] "Female"          "Female"          "Female"          "Female"         
+## [21] "Female"          "Female"          "Female"          "Female"         
+## [25] "Female"          "Female"          "Female"          "Female"         
+## [29] "Female"          "Female"          "Female"          "Female"         
+## [33] "<=50"            "<=50"            "<=50"            ">50"            
+## [37] "<=50"            ">50"             ">50"             ">50"            
+## [41] "<=50"            ">50"             ">50"             ">50"            
+## [45] "<=50"            "<=50"            "<=50"            ">50"            
+## [49] "Current_Smoker"  "Previous_Smoker" "Current_Smoker"  "Current_Smoker" 
+## [53] "Previous_Smoker" "Current_Smoker"  "Current_Smoker"  "Current_Smoker" 
+## [57] "Current_Smoker"  "Previous_Smoker" "Non_Smoker"      "Previous_Smoker"
+## [61] "Previous_Smoker" "Current_Smoker"  "Current_Smoker"  "Current_Smoker" 
+## [65] "86"              "83"              "91.9"            "88.8"           
+## [69] "97"              "80.2"            "85"              "84"             
+## [73] "92"              "85"              "81"              "92"             
+## [77] "87"              "82"              "84"              "90"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#PatientsMatrix[, "WEIGHT"]\textgreater{} 80}
+
+\CommentTok{\#(c) Determine the average weight in the PatientsMatrix}
+\CommentTok{\#Since as.matrix change the type of the patientsMatrix, we need to change it again}
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(PatientsMatrix[ ,}\StringTok{\textquotesingle{}WEIGHT\textquotesingle{}}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 72.70741
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#3. Create a list called PatientsList which contains the column AGE of the BasicCharacteristics.}
+\NormalTok{PatientsList}\OtherTok{\textless{}{-}}\FunctionTok{as.list}\NormalTok{(BasicCharacteristics}\SpecialCharTok{$}\NormalTok{AGE)}
+\CommentTok{\#(a) Print the lenght of PatientsList.}
+\FunctionTok{length}\NormalTok{(PatientsList)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#(b) Determine the number of patients with age over 50 using the lenght() function}
+\NormalTok{test}\OtherTok{\textless{}{-}}\NormalTok{ PatientsList }\SpecialCharTok{==} \StringTok{"\textgreater{}50"}
+\NormalTok{test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE
+## [13]  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+## [25]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+## [37]  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+## [49] FALSE FALSE  TRUE FALSE FALSE  TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(test[test }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 27
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,185 @@
+---
+title: "Assignment3_stat123"
+author: "Koki Itagaki"
+date: "2023-03-09"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Q1 The commands generate a normal distribution with a mean of 50 and a standard 
+deviation of 10.
+Create a histogram to show the range of values that covers the middle 95% of
+this distribution, using the
+title of "Normal Distribution with Mean 50 and SD 10", light blue color, and 
+breaks equal to 30.
+```{r}
+set.seed(123)
+data <- rnorm(10000, mean = 50, sd = 10)
+hist(data, main ="Normal Distribution with Mean 50 and SD 10", sub = "Written 
+by Koki Itagaki",xlab = "Values", ylab = "Frequency",breaks = 30, 
+col = "lightblue")
+
+q <- quantile(data, c(0.025, 0.975))
+abline(v = q, lty = 2, col = "red")
+
+
+```
+2. Download the data sets sampledata.csv with 100 numeric variables, name it 
+mydata and save it to whatever directory you are using for this question.
+```{r}
+set.seed(123)
+mydata<- read.csv("/Users/itagakikouki/stat123/assignment3/sampledata.csv")
+
+head(mydata)
+dim(mydata)
+#(a) Use a for loop to calculate the mean and standard deviation for each variable in mydata.
+
+means <- numeric(ncol(mydata))
+sds <- numeric(ncol(mydata))
+
+
+for (i in 1:ncol(mydata)) {
+  means[i] <- mean(mydata[,i])
+  sds[i] <- sd(mydata[,i])
+  print(paste("Mean for X ", i," is ", means[i]))
+  print(paste0("Standard deviations for X",i," is ", sds[i]))
+
+}
+
+#(b) Use an if statement to identify the variables with a mean greater than 
+#10.5 and store their names in a vector 
+new_vector <- character()
+
+for (i in 1:ncol(mydata)) {
+  if((means[i]) > 10.5){
+    new_vecrtor<- c(new_vector, names(mydata)[i])
+  }
+}
+print(new_vecrtor)
+```
+3. Use the dataset mydata in question 2.
+```{r}
+set.seed(123)
+#(a) Calculate the mean for each variable.
+sapply(mydata,mean)
+print(is.numeric(unlist(mydata)))
+#(b) Calculate the 90% confidence interval for each variable
+
+alpha<-0.1
+for(i in 1:ncol(mydata)){
+  n <- length(mydata[[i]])
+  mean_val <- mean(mydata[[i]])
+  sd_val <- sd(mydata[[i]])
+  t_val <- qt(1 - alpha / 2, df = n - 1)
+  lower_ci <- mean_val - t_val * sd_val / sqrt(n)
+  upper_ci <- mean_val + t_val * sd_val / sqrt(n)
+  print(paste("90% of confidence interval for variable X",i," is ",round(lower_ci,   2), ", ", round(upper_ci, 2)))
+}
+
+  
+#(c) Print the results using a matrix with three columns named 
+#("Mean", "Lower_CI", and "Upper_CI").
+result_matrix <- matrix(NA, nrow = ncol(mydata), ncol = 3, 
+                         dimnames = list(names(mydata), c("Mean", "Lower_CI", "Upper_CI")))
+
+for (i in 1:ncol(mydata)) {
+  mean_val <- mean(mydata[[i]])
+  n <- length(mydata[[i]])
+  stder <- sd(mydata[[i]]) / sqrt(n)
+  alpha <- 0.1
+  t_val <- qt(1 - alpha/2 , df = n - 1)
+  lower_ci <- mean_val - t_val * stder/sqrt(n)
+  upper_ci <- mean_val + t_val * stder/sqrt(n)
+  result_matrix[i, 1] <- mean_val
+  result_matrix[i, 2] <- lower_ci
+  result_matrix[i, 3] <- upper_ci
+}
+
+print(result_matrix)
+
+
+
+
+```
+4. Consider the built-in data set UCBAdmissions in R.
+```{r}
+set.seed(123)
+data(UCBAdmissions)
+
+#(a) If we are interested in the proportion of people that apply to Berkeley
+#University and get accepted, what is the population of interest and 
+#what is the parameter of interest?
+
+#The population of interest is all peoole who apply to Berkeley University
+#The parameter of interest is the proportion people who apply to Berkeley 
+#University and got accepted.
+
+#(b) Using the command ? UCBAdmissions, determine the variables in the dataset
+#and describe what kind of variables they are.
+#?UCBAdmissions
+
+#There are 3 variables: Admit, Gender, and Dept.
+#First of all, Admit is a categorical variable
+#which describes if the applicants got admitted or not. This variable has two levels: Admitted and Rejected 
+#Second of all, Gender is a categorical variable which describes genders of applicants. There are two levels:Male and Female
+#Lastly, Dept is also categorical variable. Dept shows different departments which applicants applied to. This has 6 levels:A,B,C,D,E,and F.
+#(c) Create a variable in R called totalAdmissions which contains the total number of students who were admitted to the university (across all genders and departments).
+
+totalAdmissions <- sum(UCBAdmissions["Admitted", , ])
+totalAdmissions
+#(d) Create a variable in R called totalRejections which contains the total
+#number of students who were rejected to the university (across all genders a
+#                                                        nd departments).
+totalRejections <- sum(UCBAdmissions["Rejected",,])
+totalRejections
+#(e) Create a variable in R called totalApplicants which contains the total n
+#umber of students who applied to the university in our sample.
+totalApplicants <- sum(UCBAdmissions)
+totalApplicants
+
+#(f) What is the observed value of the statistic we should use to estimate the population parameter of interest?
+pop_prop<- totalAdmissions/totalApplicants
+pop_prop
+#(g) What is the estimated standard error for ^p?
+est_stdError<- sqrt(pop_prop*(1-pop_prop))/totalApplicants
+est_stdError
+#(h) What is the critical value for a 92% con_dence interval for p?
+#1-a = 0.92
+#a = 0.08
+#a/2 = 0.04 = 96%
+cri_p<-qnorm(0.96)
+cri_p
+#(i) What is the margin of error for our estimate?
+est_stdError*cri_p
+#(j) Compare that to result of the approximate margin of error formula we
+#learned earlier in the course.
+app_me<- cri_p*sqrt((pop_prop*(pop_prop))/totalApplicants) 
+app_me
+#(k) Determine a 92% con_dence interval for the true value of the population proportion
+upper<- 0.3877596 + 0.0001884673
+lower<-0.3877596 - 0.0001884673
+print(paste("The 92% CI is betweeen",lower,"and", upper))
+```
+#(a) If we are interested in the proportion of people that apply to Berkeley
+#University and get accepted, what is the population of interest and 
+#what is the parameter of interest?
+
+#The population of interest is all peoole who apply to Berkeley University
+#The parameter of interest is the proportion people who apply to Berkeley 
+#University and got accepted.
+
+#(b) Using the command ? UCBAdmissions, determine the variables in the dataset
+#and describe what kind of variables they are.
+#?UCBAdmissions
+
+#There are 3 variables: Admit, Gender, and Dept.
+#First of all, Admit is a categorical variable
+#which describes if the applicants got admitted or not. This variable has two levels: Admitted and Rejected 
+#Second of all, Gender is a categorical variable which describes genders of applicants. There are two levels:Male and Female
+#Lastly, Dept is also categorical variable. Dept shows different departments which applicants applied to. This has 6 levels:A,B,C,D,E,and F.
+
+

@@ -1,0 +1,88 @@
+---
+title: "Lab7"
+author: "Koki Itagaki"
+date: "2023-03-07"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. Generate a sequence of random integers between 20 and 30 without replacement, and you want to stop the sequence once a value of 27 is generated. Please use a while loop and an if statement to accomplish this.
+```{r}
+set.seed(2023)
+x<- 0
+stop<- FALSE
+while(stop == FALSE){
+  x<-sample(20:30,1,replace = FALSE)
+  print(x)
+  if(x == 27){
+    stop <- TRUE
+  }
+  
+}
+```
+2. Write a program that reads in a list of numbers (6, 7, 4, 3, 1, 6, 7, 4, 9).
+
+```{r}
+
+listt<-c(6, 7, 4, 3, 1, 6, 7, 4, 9)
+even_sum = 0
+
+#(a) calculate the sum of the even numbers using a “for” loop and “if” condition.
+for(i in 1:length(listt)){
+  if(listt[i] %%2 == 0){
+    even_sum <- even_sum + listt[i] 
+  }
+  
+}
+#(b) print out "The sum of even numbers is" with the sum of even numbers.
+print(paste("The sum of even numbers is ",even_sum))
+
+```
+
+3. Download the data set boombust.csv and save it to whatever directory you are using for this course. The goal is to write a for-loop to create a new column at the end of the matrix that contains the sum of each row.
+```{r}
+boom<-read.csv("/Users/itagakikouki/stat123/lab7/boombust.csv")
+head(boom)
+dim(boom)
+#(a) Create a matrix that contains only the numerical values and name it nums
+nums<- as.matrix(boom[, 2:9])
+head(nums)
+#(b) Create a new column of zeros at the end of nums by using: nums = cbind(nums, rep(0, length(nums[,1]))).
+#length(nums[,1]) means how many rows there are 
+nums = cbind(nums, rep(0, length(nums[,1]))) 
+head(nums)
+#(c) Write a for-loop that calculates the sum (for each row) of the first through eighth columns of nums and saves the sum in the nineth column of nums. ie.
+
+#When i = 1 sum all of colums of first row
+for(i in 1:length(nums[ ,1])){
+  nums[i,9] = sum(nums[i, 1:8])
+}
+#(d) Print out the nums matrix.
+print(nums)
+```
+
+4. Loops in R are notoriously slow. While loops are incredibly important to master from a theoretical sense, when working with large data sets we should always try to use the apply family of functions to increase efficiency.
+You have learned about sapply and lapply in class, but until you learn how to write your own functions, sapply and lapply can be fairly limited. Today we will take a quick look at the power of the apply()
+function, which allows us to perform functions on 2 dimensional objects like matrices and dataframes. The apply() function has 3 main parameters: apply(X = , MARGIN = , FUN = ). The only difference between apply() and sapply() is the MARGIN parameter which tells R whether you want to calculate something on the rows (MARGIN = 1) or the columns (MARGIN = 2)
+```{r}
+#(a) Create a matrix that contains only the numerical values of boombust.csv and name it names.
+names<- as.matrix(boom[,2:9])
+
+#(b) Create a new column at the end of names (similarly to how you were shown in 3c).
+names<- cbind(names, rep(0, length(names[,1]))) 
+head(nums)
+
+
+#(c) Use apply() to fill this new column with the sum of each row for columns 1 − 9. Hints: in the apply() function you should set X = names[, 1:9] and FUN = sum. You cab set MARGIN equal to one.
+names[,9]<- apply(X= names[,1:8], MARGIN = 1, FUN = sum)
+
+
+#(d) Print out names
+print(names)
+```

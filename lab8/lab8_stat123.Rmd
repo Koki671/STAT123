@@ -1,0 +1,133 @@
+---
+title: "lab8_stat123"
+author: "Koki Itagaki"
+date: "2023-03-14"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. Suppose you have a dataset called "sales" that contains the monthly sales (in thousands of dollars) for a company over the past year. You want to estimate the median monthly sales and its standard error using bootstrapping
+```{r}
+sales<-read.csv("/Users/itagakikouki/stat123/lab8/sales.csv")
+dim(sales)
+
+#med<-median(sales)
+#n = sample size
+#choose number randomly and assign to the data list
+boostrap<- function(data,n){
+  index<- sample(1:length(data),n, replace = TRUE)
+  #output is data[1],data[34] etc
+  return(data[index])
+}
+#choose 1000 population and choose 30 samples from each of the population
+n_boostrap <- 1000
+n<- 30
+boot_sample<-replicate(n_boostrap,boostrap(sales$sales,n), simplify = FALSE)
+boot_median<-sapply(boot_sample,median)
+se<-sd(boot_median)
+
+boot_median
+se
+```
+
+2. Creating a scatterplot, calculating the correlation coefficient, and computing a confidence interval in R
+using a "mtcars" dataset in R. (Using cat() to concatenate output together like [cat("95% Confidence
+Interval:", round(lower_ci, 2), "-", round(upper_ci, 2), "\n"])
+```{r}
+data(mtcars)
+head(mtcars)
+plot(mtcars$wt, mtcars$mpg, xlab = "Weight", ylab = "Miles per gallons")
+corr_coef <- cor(mtcars$wt, mtcars$mpg)
+cat("Correlation coefficient: ", round(corr_coef,2), "\n")
+n<-length(mtcars$wt)
+alpha<-0.05
+z_critical<-qt(1-alpha/2, df = n-2)
+se <- sqrt(1- corr_coef^2/(n-2))
+lower_ci <- corr_coef - z_critical*se
+upper_ci <- corr_coef + z_critical*se
+cat("95% confidence interval: ", round(lower_ci,2), "-", round(upper_ci,2),"\n")
+
+
+
+
+```
+
+3. Load the nba_player_data.csv dataset into R and save it to df. 
+```{r}
+#(a) Copy and paste each of the following three lines into your code to eliminate rows with zeros or NA’s.
+df <- read.csv("/Users/itagakikouki/stat123/lab8/nba_player_data.csv")
+dim(df)
+head(df)
+#Eliminate na
+df = na.omit(df)
+#eliminate rows with 0
+rowsub = apply(df, 1, function(row) all(row !=0 ))
+#update dataset with no row with 0
+df = df[rowsub,]
+#• df = na.omit(df)
+#• row sub = apply(df, 1, function(row) all(row !=0 ))
+#• df = df[row sub,]
+df
+
+#(b) We are only concerned with the categories listed above so use the following 
+#code to #save only the relevant columns to a new dataframe called dfc:
+#try to keep 7 columns
+dfc = df[, c(13:16, 18:20)]
+dfc
+
+
+```
+4. Generate six scatter plots. Each will have 3-point percentage (column 1) as the y-axis and the x-axis
+will be one of each of the other columns in dfc. Recall that the basic function for scat
+ter plots is plot(x,
+y).
+```{r}
+
+#(a) (b) We will be using a for-loop to populate the plots. Each plot will have the same title:
+colours = c("dodgerblue", "firebrick1", "green3", "orange", "salmon", "slateblue1")
+cnames = c("2pt makes", "2pt attempts", "2pt %", "FT makes", "FT attempts", "FT %")
+par(mfrow = c(2,3))
+dim(dfc)
+n<-dim(dfc)[1]
+m<-dim(dfc)[2]
+#TO get 6 plots
+for(i in 2:m){
+  plot(dfc[,i],col = colours[i-1], xlab = cnames[i-1], ylab = "3pt %",
+       main = "3pt shooting correlation")
+}
+
+#“3pt Shooting Correlation.”, and same y-axis label, “3pt %”. Each plot should be a
+#different color and each x-axis should be properly labeled with the appropriate category.
+#You may use the following code to set up vectors for different colours and labels:
+#• colours = c("dodgerblue", "firebrick1", "green3", "orange", "salmon", "slateblue1")
+#• cnames = c("2pt makes", "2pt attempts", "2pt %", "FT makes", "FT attempts", "FT %")
+#(c) Write a for-loop that produces the six necessary scatter plots. Above the for-loop code,
+#use the following to set up a grid so that your plots are presented nicely: par(mfrow = c(2, 3))
+```
+
+5. Use a for-loop to calculate the correlations between 3pt % and each of the other columns.
+```{r}
+
+#(a) Create an empty numeric vector to store the correlations and name it cor_vec.
+cor_vec<- numeric()
+#(b) Write a for-loop to populate cor_vec with the corresponding correlations.
+for(i in 1:m){
+  cor_vec[i] = cor(dfc[,1],dfc[,i])
+}
+cor_vec
+#(c) Run the following code to properly name the elements in cor_vec: 
+names(cor_vec) = c("3pt %",cnames)
+#(d) Print out cor_vec.
+cor_vec
+```
+
+
+
+
+

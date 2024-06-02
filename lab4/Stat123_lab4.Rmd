@@ -1,0 +1,89 @@
+---
+title: "Lab4_stat123"
+author: "Koki Itagaki"
+date: "2023-02-07"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Quesition 1
+#Take a look at the following table. The number of various crops cultivated in
+#a village is given in the following table. 
+```{r}
+#a) Create a data frame named "crops.df" and then calculate the percentage of 
+#crops.
+crops.df<-data.frame(Items = c("Wheat","Pulses","Jowar","Groundnuts","Vegitables")
+                     ,crops = c(140,110,30,60,20))
+crops.df
+percent<- round(crops.df$crops/sum(crops.df$crops)*100,2)
+percent
+#b) Produce a pie chart showing the items and the percentage of crops with 2 
+#decimals and change the color of the pie chart. (Using the paste() function) 
+#crops
+segment<- paste(crops.df$Items,percent,"%")
+pie(crops.df$crops, labels = segment, col = rainbow(length(crops.df$crops)),
+    main = "The pie chart for crops")
+
+
+
+```
+
+
+#Question2 Download the data set Superstores.csv and save it 
+#to whatever directory you are using for this course.
+```{r}
+#a) Read the file and take a look at the dataset to familiarize yourself 
+#with its contents. Then create a sub-dataset that contains all data and 
+#columns with restrictions for the Region. The Region can be Central or East.
+superstore<- read.csv("/Users/itagakikouki/stat123/Superstores.csv",
+                      header = TRUE)
+
+dim(superstore)
+head(superstore)
+sample<-superstore[superstore$Region == c("Central","East"),]
+
+
+
+#b) Produce a horizontal bar plot to compare the quantity and category. 
+#You should set the bars beside each other. Set the colour of the bars to be 
+#the rainbow as you saw in Chapter 10’s lecture and consider a title bar 
+#as “Comparing the quantity and category of products,” the x-axis
+#as “Quantity vs Category,” and the y-axis as “Frequency.”
+value <- table(sample$Category,sample$Quantity)
+value
+barplot(value, main = "Comparing the quantity and category of products",xlab =
+"Quantity vs Category", ylab = "Frequency", col = rainbow(2), 
+legend= c("Category","Quantity"), beside = TRUE, horiz = TRUE)
+
+```
+
+
+#Question3. Use the Superstores.csv. It contains the profits in the last column.
+```{r}
+#a) Produce a line plot with the x-axis as “Index,” the y-axis as “Profit,” 
+#and the title as “Profits among superstores.” The x-axis value should be 
+#between 0 and 100
+plot(superstore$Profit, type = "l",xlab = "Index", ylab = "Profit",
+     xlim = c(0,100),col = "darkblue", main = "Profits among superstores.")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

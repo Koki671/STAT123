@@ -1,0 +1,67 @@
+---
+title: "Stat123_lab3"
+author: "Koki Itagaki"
+date: "2023-01-31"
+output: html_document
+---
+
+
+
+#1. Download the data set inflation_consumer.csv posted under Lab Content in Brightspace (under Lab 3) and save it to whatever directory you are using for this course.
+```{r}
+#(a) Read the inflation_consumer file into R and call it Inflation.df.
+Inflation.df<-read.csv("/Users/itagakikouki/stat123/inflation_consumer.csv")
+
+
+#(b) How many observations (rows) are in this dataset? How many variables (columns)?
+  #nrow(Inflation.df)
+  #ncol(Inflation.df)
+  dim(Inflation.df)
+#(c) What are the mean values for the Year column?
+  head(Inflation.df,100)
+  mean(Inflation.df$Year)
+#(d) Determine which country has the lowest Inflation and print out their name.
+  minIn<-min(Inflation.df$Inflation)
+ min_country<-Inflation.df[Inflation.df$Inflation == minIn,"Country"]
+ min_country
+#(e) Determine which country has the highest Inflation and print out the year.
+ max_in<-max(Inflation.df$Inflation)
+ max_country<-Inflation.df[Inflation.df$Inflation == max_in, "Year"]
+ max_country
+ 
+
+
+```
+
+#2. Create a new dataframe that contains all countries with inflation over 7.00 and save it to Sub_Inflation.
+
+
+```{r}
+
+Sub_Inflation<-Inflation.df[Inflation.df$Inflation > 7.00,]
+
+
+
+#(a) Determine the average of the inflation column and save this to a variable called avg.inflation.
+avg.inflation<-mean(Sub_Inflation$Inflation)
+avg.inflation
+#(b) Determine the number of countries with Inflation over that 15.00, using Sub_Inflation, and print out the value.
+Sub_Inflation["Inflation"][Sub_Inflation["Inflation"] > 15.00 ] <- "High_Inflation"
+length(Sub_Inflation["Inflation"] == "High_Inflation")
+
+#(c) Create a vector named Inflation_Status which contains two levels: High_Inflation and Low_Inflation.All countries in Sub_Inflation with inflation over than 15.00 should be labeled as High_Inflation, otherwise named as low_Inflation.
+Sub_Inflation["Inflation"][Sub_Inflation["Inflation"] != "High_Inflation"]<- "low_Inflation"
+Inflation_Status<-as.vector(Sub_Inflation["Inflation"])
+Inflation_Status
+
+```
+
+
+
+
+
+
+
+
+
+

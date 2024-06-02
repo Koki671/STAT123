@@ -1,0 +1,197 @@
+---
+title: "Exam (Long Answer)"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Question 1: Consider the RealEstate.csv data set. 
+
+(a) Plot the distribution of the price per unit area variable. 
+
+(b) Describe the shape of the distribution. 
+
+(c) Compute an estimate of the mean price per unit area. 
+
+(d) Bootstrap 10000 sample means of the price per unit area. Save the bootstrapped means to a vector called boot_means. 
+
+(e) Plot the sampling distribution to see if it appears to be normally distributed.
+
+
+(f) Use the qnorm function (consider the distribution of the sample mean) to compute a 95% confidence interval for the mean.  
+
+(g) Now, imagine you are not sure the distribution is normal. Use the quantile function to compute a 95% confidence interval for the mean price per unit area. 
+
+
+```{r Question 1}
+
+# (a) Plot the distribution of the price per unit area variable. 
+
+# Answer (a) below: 
+RE = read.csv(file = "/Users/itagakikouki/stat123/lab11/RealEstate.csv",header = TRUE)
+dim(RE)
+head(RE)
+
+#SInce numerical
+hist(RE$Y.house.price.of.unit.area, main = "Price per unit area", xlab = "Price")
+
+
+# (b) Describe the shape of the distribution.  
+
+# Answer (b) below:
+#This is right-skewed
+
+
+
+# (c) Compute an estimate of the mean price per unit area. 
+
+# Answer (c) below:
+xbar = mean(RE$Y.house.price.of.unit.area)
+xbar
+
+
+# (d) Bootstrap 10000 sample means of the price per unit area. Save the
+# bootstrapped means to a vector called boot_means. 
+
+# Answer (d) below:
+n = length(RE$Y.house.price.of.unit.area)
+# Declare boot_mean as numeric vector with length 10000
+boot_mean = numeric(length = 10000)
+for(i in 1:10000){
+  # Since replace is true, we can sample the same value twice.
+  temp_sample = sample(RE$Y.house.price.of.unit.area ,n ,replace = TRUE)
+  boot_mean[i] = mean(temp_sample)
+}
+
+
+
+
+
+
+
+# (e) Plot the sampling distribution.  
+
+# Answer (e) below:
+hist(boot_mean,main = "The histgram of 10000 sample means of the price per unit area"
+     ,xlab = "Frequency", ylab = "Mean")
+
+
+
+# (f) Use the quantile function to compute a 95% confidence interval for the mean
+# price per unit area. 
+
+# Answer (f) below:
+quantile(boot_mean)
+sd<-sd(boot_mean)
+ese = sd/sqrt(n)
+critical_val = qnorm(boot_mean)
+lower_ci<-xbar - critical_val*ese
+upper_ci<-xbar + critical_val*ese
+
+
+cat(paste("The confidence interval is [",lower_ci, ",",upper_ci))
+
+
+
+# (g) Use a different method (which considers the distribution of the sample mean)
+# to compute a 95% confidence interval for the mean.  
+
+
+quantile(boot_mean,c(0.025,0.975))
+
+
+
+```
+
+Question 2:  Load the media_spend.csv dataset into R and save it to df. Dataset contains information about a fictitious company that’s trying to determine
+how much money to spend on various types of advertising for the coming year. They have historical data showing sales (in millions of dollars) and the amount they spent on TV, Radio, and Newspaper advertising that year (in thousands of dollars). The  goal is to determine which of the types of advertising effects sales the most. We are trying to see how the advertising effects sales, therefore, sales is our response
+variable and the other columns are our regressors.
+
+(a) Plot the response variable (as the y-axis) against each of the regressor variables (one
+plot for each regressor). Use the par(mfrow = c()) function so that all the plots are
+displayed at once.
+
+(b) Looking only at the plots, which type of advertising do you think will have the largest
+effect on sales?
+
+(c) Perform a linear regression for each form of advertising vs the response variable, sales.
+
+(d) Print out the summary for each of these regressions and take note of the p-value for the t-test on the significance of the coefficient for each. Which of the regressors is the most significant?
+
+(e) Create a vector of these p-values and name each element with the corresponding type of
+advertising
+
+```{r Question 2}
+
+# (a) Plot the response variable (as the y-axis) against each of the regressor variables
+# (one plot for each regressor). Use the par(mfrow = c()) function so that all the plots 
+# are displayed at once
+
+# Answer (a) below: 
+df<- read.csv(file = "/Users/itagakikouki/stat123/lab11/media_spend.csv",header = TRUE)
+head(df)
+par(mfrow = c(2,2))
+par(mar = c(4.8,4.5,5,2.1))
+colo<-c("blue","yellow", "green")
+cname<-c("TV","Radio","Newspaper")
+for(i in 1:3){
+  title<-paste("Sales vs", cname[i])
+  plot(df[,i],df[,4],col = colo[i], xlab = cname[i], ylab = "Sales", main = 
+         title)
+}
+mtext("SAles vs Media type",outer = TRUE,line = -1.5)
+
+
+
+
+
+# (b) Looking only at the plots, which type of advertising do you think will have the 
+# largest effect on sales?
+
+# Answer (b) below:
+#According to the graph, TV have the 
+
+
+
+
+
+
+# (c) Perform a linear regression for each form of advertising vs the response variable,
+# sales.
+
+# Answer (c) below:
+
+fit_news<-lm(Sales~Newspaper +TV + Radio, data = df)
+
+
+# (d) Print out the summary for each of these regressions and take note of the p-value for # the t-test on the significance of the coefficient for each.  Which of the regressors is
+# the most significant?. 
+
+# Answer (d) below:
+summary(fit_news)
+
+
+# (e) Create a vector of these p-values and name each element with the corresponding type
+# of advertising 
+
+# Answer (e) below:
+
+res<-numeric(3)
+names(res)<- c("Newspaper","TV","Radio")
+res[1]<- summary(fit_news)$coefficients[2,4]
+res[2]<- summary(fit_news)$coefficients[3,4]
+res[3]<- summary(fit_news)$coefficients[4,4]
+
+#res[2]<-summary(lm(Sales ~TV,data = df))$coefficients[2,4]
+#res[3]<-summary(lm(Sales ~Radio,data = df))$coefficients[2,4]
+
+print(res)
+
+
+
+
+```

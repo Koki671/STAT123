@@ -1,0 +1,214 @@
+---
+title: "Homework Assignment4 Stats 123"
+author: "Group F"
+date: "2023-03-30"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Load the dataset in R and preprocess the data by removing any missing values and normalizing the data.Data Cleaning and Preprocessing: Load the dataset and remove any missing or irrelevant data. Preprocess the data by converting any non numeric values to numeric.
+
+# Library Loading
+# Load the necessary libraries
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+
+# Data Loading and Formatting
+# Load read the dataset GSPC.csv into a dataframe called data.
+data <- read.csv("/Users/itagakikouki/stat123/project/^GSPC.csv")
+
+# Print some information about the dataframe.
+head(data)
+dim(data)
+
+# Convert the date column to the Date format
+data$Date <- ymd(data$Date)
+
+# Create new columns, Previous days closing price and price difference
+data <- data %>% mutate(prev_close = lag(Adj.Close, default = first(Adj.Close)))
+data <- data %>% mutate(price_dif = Adj.Close - lag(Adj.Close, default = first(Adj.Close)))
+
+# Data Cleaning
+# Take all the NA values out of the dataframe.
+data <- drop_na(data)
+
+# Boxplot for volume (before we do outlier clean).
+boxplot(data$Volume)
+# Here we clean the outliers from volume.
+data <- data[!data$Volume %in% boxplot(data$Volume, plot = FALSE)$out, ]
+# Here we print the dimensions of the dataframe.
+dim(data)
+# Output a boxplot of volume after we have taken out the outliers.
+boxplot(data$Volume)
+
+# Boxplot for open (before we do outlier clean)
+boxplot(data$Open)
+# Here we clean the outlier values from our Open column.
+data <- data[!data$Open %in% boxplot(data$Open, plot = FALSE), ]
+# Print the dimensions of the dataframe after.
+dim(data)
+# Boxplot of the Open column after we have cleaned the outliers from it.
+boxplot(data$Open)
+
+# There is a duplicate column, "Close" so we will remove it because it has the same values listed in Adj.Close
+data <- data[,c("Date","Open","High","Low", "Adj.Close","Volume","prev_close","price_dif")]
+head(data)
+
+# Data Plot graphs
+# Plot a scatterplot of Date vs Adj.Close.
+ggplot(data, aes(x = Date, y = Adj.Close)) + geom_point() + labs(x = "Date", y = "Adj.Close", title = "Scatterplot of Data Date vs Adj.Close")
+# Plot a scatterplot of Date vs Volume.
+ggplot(data, aes(x = Date, y = Volume)) + geom_point() + labs(x = "Date", y = "Volume", title = "Scatterplot of Date vs Volume")
+# Plot a scatterplot of Open vs Adj.Close.
+ggplot(data, aes(x = Open, y = Adj.Close)) + geom_point() + labs(x = "Open", y = "Adj.Close", title = "Scatterplot of Open vs Adj.Close")
+
+# Dataset Analysis
+cor(data$Open, data$Adj.Close)
+# Analyze the data using the str() function.
+str(data)
+# Analyze the data using the summary() function.
+summary(data)
+
+# Train and Test Data Splitting
+# Split training and test sets use sample() and subset()
+set.seed(123)
+train_index <- sample(nrow(data), size = round(0.8*nrow(data)), replace = FALSE)
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+# Output a sample of values from train_data and test_data.
+head(train_data)
+head(test_data)
+
+# Model Creation and Refinement
+# Build a linear regression model to predict price difference
+model <- lm(price_dif ~ Open + High + Low + Volume, data = train_data)
+model
+# Use the summary() function to output information about the model.
+summary(model)
+
+# We see Volume is not significant so we remake the model without it.
+
+# Build a linear regression model to predict price difference without
+# Volume.
+model <- lm(price_dif ~ Open + High + Low, data = train_data)
+model
+# Use the summary() function to output information about the model.
+summary(model)
+
+# Model Testing
+# Predict the price difference for the test set
+pred_diff <- predict(model, newdata = test_data)
+head(pred_diff)
+
+# Calculate the predicted closing price for the test set
+pred_close <- test_data$Adj.Close + pred_diff
+head(pred_close)
+
+# Model Evaluation
+# Calculate the mean absolute error
+mae <- mean(abs(test_data$Adj.Close - pred_close))
+mae
+
+# Calculate the mean percentage error
+mpe <- mean((pred_close - test_data$Adj.Close) / test_data$Adj.Close) * 100
+mpe
+
+# Here we classify all the predictions of our model as Increase or Decrease
+# and save all of them to predicted.
+predicted <- ifelse(pred_diff > 0, "Increase", "Decrease")
+# Here we classify all the predictions of our model as Increase or Decrease
+# and save all of them to actual.
+actual <- ifelse(test_data$price_dif > 0, "Increase","Decrease")
+# Output a sample of the values in predicted and actual.
+head(predicted)
+head(actual)
+
+# Create a confusion matrix off of predicted and actual using the table
+# function.
+confusion_matrix <- table(predicted, actual)
+# Output the confusion matrix we created.
+confusion_matrix
+
+# Evaluation Metrics
+# Calculate the accuracy of the model using the confusion matrix.
+accuracy <- sum((confusion_matrix[1,1]) + (confusion_matrix[2,2])) / (sum(confusion_matrix))
+# Output the calculated accuracy.
+accuracy
+
+# Calculate the sensitivity of the predicted model using the confusion matrix.
+sensitivity <- confusion_matrix[1,1]/ (confusion_matrix[1,1] + confusion_matrix[2,1])
+# Output the calculated sensitivity.
+sensitivity
+
+# Calculate the precision of the predicted model using the confusion matrix.
+precision <- confusion_matrix[1,1]/(confusion_matrix[1,1] + confusion_matrix[1,2])
+# Output the calculated precision.
+precision
+
+# Calculate recall of the predicted model using the confusion matrix.
+recall <- confusion_matrix[1,1] / (confusion_matrix[1,1] + confusion_matrix[2,1])
+# Output the calculated recall.
+recall
+
+# Use the calculated recall and precision to calculate the F1 Score for our
+# model.
+f1_score <- 2 * precision * recall / (precision + recall)
+# Output the calculated F1 Score.
+f1_score
+
+# Final Model Evaluation
+# Print the evaluation metrics
+cat("Sensitivity:", sensitivity, "\n")
+cat("Accuracy:", accuracy, "\n")
+cat("Precision:", precision, "\n")
+cat("Recall:", recall, "\n")
+cat("F1-score:", f1_score, "\n")
+```
+
+#This R code generates a model that predicts future prices of the S&P 500 Index using historical data. The script is divided into several segments.
+
+###Firstly
+the necessary libraries for the script are loaded, including tidyverse, lubridate, and dplyr.
+
+###Secondly
+the script loads and formats the data. The script reads in the GSPC.csv dataset, and converts all the values in the Date column to the date type. It then creates two new columns, prev_close and price_dif, based on data from the dataframe.
+
+###Thirdly
+the script performs data cleaning. It removes all the NA values, creates a boxplot of the Volume column to visualize outliers, and removes the outliers from the Volume and Open columns. The Close column is removed from the dataframe since it has the same values as Adj.Close.
+
+###Fourthly
+the script plots three separate scatterplots of the columns in the dataframe, namely Date vs Adj.Close, Date vs Volume, and Open vs Adj.Close.
+
+###Fifthly
+the script analyzes the dataset by calculating the correlation coefficient between the Open and Adj.Close columns of the dataframe, and analyzing the dataframe with the str() and summary() functions.
+
+###Sixthly
+the script splits the data into a random 80% for training and 20% for testing. It then outputs the first few values from each of them.
+
+###Seventhly
+the script creates a linear regression model based on the Open, High, Low, and Volume columns of the dataframe. It prints out a summary of the model, and removes Volume since it is not significant. It then creates a new model without Volume, leaving the intercept as is. The new model shows that the most important factors affecting stock price are Open, High, and Low.
+
+###Eighthly
+the script tests the model on the test data using the predict() function to predict the difference in stock price. It then uses this predicted difference to calculate the model's predicted closing price of the stocks in the test set.
+
+###Ninthly
+the script evaluates the model. It calculates and outputs the mean absolute error and the mean percentage error of the model compared with the actual values for the test data. It also classifies the differences in the predicted differences and the actual differences as either Increase or Decrease depending on what they say the stock will do, saving the classifications. It outputs a few values of the classifications and creates a confusion matrix using the table() function.
+
+###Tenthly
+the script calculates accuracy, sensitivity, recall, precision, and F1 score using the confusion matrix.
+
+###Finally
+the script outputs each of the final evaluation metrics.
+
+
+
+
+
+

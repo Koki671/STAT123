@@ -1,0 +1,348 @@
+---
+title: "Final Exam 2023(Long Answer)"
+author: "Student Full Name"
+date: "2023-04-22"
+output: word_document
+---
+
+Question 1: Suppose you have a dataset called "students" containing information on the age, gender, and test scores of 100 students.
+
+(a) Create a dataframe with three columns: age (22, 20, 19, 19, 18, 20, 17), gender (Female, Male, Male, Female, Male, Female, Female), and test scores (7 sample data between 40 to 100) using the sample function and set.seed(25).
+
+(b) Calculate the mean and standard deviation of the test scores.
+
+(c) Create a boxplot of the test scores.
+
+(d) Calculate the correlation between age and test scores.
+
+(e) Create a scatter plot to show the relationship between age and test scores, where the latter is the response variable in the dataframe.
+
+(f) Add a regression line to your scatter plot.
+
+```{r Question 1}
+
+# Answer (a) below: 
+set.seed(25)
+test_scores<-sample(40:100,7,replace = TRUE)
+test_scores
+
+students <- data.frame(age = c(22, 20, 19, 19, 18, 20, 17),gender = c(
+  "Female", "Male", "Male", "Female", "Male", "Female", "Female"),
+  testScores = test_scores)
+students
+
+# Answer (b) below: 
+mean_score = mean(students$testScores)
+mean_score
+sd_score = sd(students$testScores)
+sd_score
+
+
+
+# Answer (c) below: 
+boxplot(students$testScores,main = "The boxplot for student scores",sub = 
+          "Written by Koki Itagaki")
+
+
+
+
+
+# Answer (d) below: 
+cor<-cor(students$age,students$testScores)
+cor
+
+
+
+# Answer (e) below: 
+
+plot(x = students$age, y = students$testScores,main = "The scatter plot of age and scores",
+     xlab = "age of students", ylab = "test scores of students")
+
+
+
+
+
+# Answer (f) below: 
+
+abline(lm(students$testScores~students$age),col = "red")
+
+
+
+
+```
+
+Question 2: Download, save, and read in the file "insurance.csv" from Brightspace. This dataset contains  the age, the gender, body mass index of the person who has purchased the insurance policy, the number of children/dependents the insured person has, and the amount charged for the insurance policy, which is the response variable in this dataset.
+
+(a) Create 3 plots illustrating the relationship between the response variable and and each explanatory variables. 
+
+(b) Fit a linear regression model including all of the explanatory variables. Be sure to write out the regression equation. 
+
+(c) Determine which variable(s) (if any) are not significant in the model using 0.05 as the criteria. 
+
+(d) Using the model from part (c) to predict the amount of charges for a female aged 30 with 1 child, a bmi of 34.2.
+
+```{r Question 2}
+insurance= read.csv("/Users/itagakikouki/stat123/insurance.csv")
+age<-insurance$age
+bmi<-insurance$bmi
+children<-insurance$children
+charges<-insurance$charges
+# Answer (a) below: 
+par(mfrow = c(2, 2))
+plot(x=age, y = charges,main = "The scatter plot of age and charges")
+plot(x=bmi, y = charges,main = "The scatter plot of bmi and charges")
+plot(x=children, y = charges,main = "The scatter plot of number of children and charges")
+
+
+ 
+
+# Answer (b) below: 
+lm_charge<-lm(charges~age+bmi+children)
+lm_charge
+
+#The regression equation is y = b0 + b1x1 + b2x2 + b3x3
+#Now we know the numbers of b0,b1,b2,and b3.
+#So, the regression equation is now y = -6916.2 + 240.0*x1 + 332.1*x2 + 542.9*x3
+
+
+
+# Answer (c) below: 
+
+summary(lm_charge)
+
+
+#All of the variables are significant which means the p-values are less 
+#than 0.05, so I do not to remove any variables.
+
+
+
+
+# Answer (d) below: 
+
+#y = -6916.2 + 240.0*x1 + 332.1*x2 + 542.9*x3
+#When the data is a female aged 30 with 1 child, a bmi of 34.2.
+
+y = -6916.2 + 240.0*30 + 332.1*34.2 + 542.9*1
+cat(paste("The charges for  a female aged 30 with 1 child, a bmi of 34.2 is", y))
+
+
+
+```
+
+Question 3: Consider the gapminder dataset (available by either loading into the R session or reading in the .csv file available in Brightspace).
+
+(a) Create a variable called Europe_1957 which contains all of the rows of the gapminder data set corresponding to the continent Europe in the year 1957 You may subset the data in any way that you please. 
+
+(b) Plot the distribution of the life expectancy in European countries in 1957. You do not need any titles for your plot. 
+
+(c) Describe the shape of the distribution (symmetry, skewness, etc.). 
+
+(d) What is the best measure of the centre of the distribution? Compute this value. 
+
+(e) What is the best measure of the spread of the distribution? Compute the value(s). 
+
+(f) Suppose we are interested in a statistic that takes the minimum life expectancy value + the maximum life expectancy value and then divides that sum by 2. We will call this statistic "midpoint". Compute the observed value of the midpoint statistic for the sample of European life expectancies in 1957. 
+
+(g) Bootstrap 10000 sample midpoints of European life expectancies in 1957. Save the bootstrapped vector as boot_midpoint. 
+
+** Note ** If you are unable to bootstrap this particular statistic, then bootstrap the median instead in order to be able to answer the remainder of the question. 
+
+(h) Plot the distribution of the bootstrapped midpoints. You do not need any titles for your plot. 
+
+(i) Describe the shape of the distribution. Does it appear normally distributed? 
+
+```{r Question 3}
+library(dplyr,ggplot2)
+gapminderr<- read.csv("/Users/itagakikouki/stat123/gapminder.csv")
+
+# Answer (a) below: 
+Europe_1957 = gapminderr%>%filter(continent == "Europe", year == 1957)
+Europe_1957
+
+ 
+
+# Answer (b) below:
+hist(Europe_1957$lifeExp,prob = TRUE)
+lines(density(Europe_1957$lifeExp),col = "red")
+
+
+# Answer (c) below:
+
+#The distribution is left-skewed
+
+
+
+
+# Answer (d) below:
+#Since the distribution is not symmentric and there might be a outlier around
+#45 to 50, we should use median to describe centre of the distribution.
+median(Europe_1957$lifeExp)
+
+
+
+
+# Answer (e) below:
+#Since the distribution might not be normally distributed, I should use quantile function
+#to describe the spread of the distribution
+quantile(Europe_1957$lifeExp)
+
+ 
+
+
+
+# Answer (f) below:
+midpoint<-function(x){
+  (min(x)+max(x))/2
+}
+
+round(midpoint(Europe_1957$lifeExp),2)
+
+
+# Answer (g) below:z
+n = length(Europe_1957$lifeExp)
+boot_midpoint = numeric()
+for(i in 1:10000){
+  temp_sample= sample(Europe_1957$lifeExp,n,replace = TRUE)
+  boot_midpoint[i] = median(temp_sample)
+}
+
+
+
+
+# Answer (h) below: 
+hist(boot_midpoint)
+
+
+
+
+
+# Answer (i) below:
+#The distribution looks a little bit left skewed, so I do not think I can say
+#this is perfectly normally distributed.
+
+
+```
+
+Question 4: The built-in Titanic data set is a 4-dimensional array that contains the following information:
+
+• Dimension 1: Class of the passenger (1 = 1st, 2 = 2nd, 3 = 3rd, 4 = Crew member)
+• Dimension 2: Sex of the passenger (1 = male, 2 = female)
+• Dimension 3: Age of the passenger (1 = child, 2 = adult)
+• Dimension 4: Survival of the passenger (1 = died, 2 = survived)
+
+(a) Create (and print out) a table which contains the adult passengers (of all classes and genders) who survived.
+
+(b) Create (and print out) a vector called survived which contains all adult passengers (of all classes and genders) who survived. 
+
+(c) Create a barplot displaying the survived vector. Make sure to include a main title and to label your x-axis. Also, make sure that each bar is a different colour.
+
+(d) Create (and print out) a vector called died which contains the adult passengers who did not survive.
+
+(e) Create (and print out) a vector called percent.Survived which contains the percentage of adult passengers who survived in each class, Using the sum(survived) in part (b).
+
+(f) Create a pie chart that displays the percent.Survived data. Be sure to include a main title for your pie chart.
+
+(g) Estimate the proportion of the female passengers (of all classes and ages) who survived using the table created in part (a). 
+
+(h) Determine a 90% confidence interval for the proportion estimated in part (g) (round to 3 decimal places)
+
+(i) Compute the margin of error.
+
+
+```{r Question 4}
+head(Titanic)
+
+# Answer (a) below: 
+adult_survived<-table(Titanic[,,"Adult","Yes"])
+adult_survived
+
+
+
+# Answer (b) below:
+survived<-Titanic[,,"Adult","Yes"]
+
+
+
+
+# Answer (c) below:
+barplot(survived,main = "the number of adults who survived",xlab = "The 
+        gender",ylab = "The number of people"
+        ,col = rainbow(length(survived)),beside  = TRUE)
+
+
+
+# Answer (d) below:
+died<-Titanic[,,"Adult","No"]
+died
+
+
+
+# Answer (e) below:
+
+
+#I use for loop to put the proportion of survived adults out of all passengers
+#who dead or survived and to show it in each class, i created a list.
+percent.Survived<-numeric()
+for(i in 1:4){
+  percent.Survived[i]<-round(sum(survived[i,])/sum(Titanic)*100,2)
+  
+}
+classes<-c("1st", "2nd","3rd","Crew")
+percent.Survived
+for(i in 1:4){
+cat("The percentage of survived adults in", classes[i], "is", percent.Survived[i])
+}
+
+
+
+# Answer (f) below:
+
+
+
+pie(percent.Survived,main = "The pie chart of adults who survived in each class",
+    labels = paste(classes,percent.Survived,"%"))
+
+
+
+
+# Answer (g) below:
+female_survived<-Titanic[,"Female",,"Yes"]/sum(Titanic)
+
+
+
+
+# Answer (h) below:
+n = length(female_survived)
+p = mean(female_survived)
+p
+sd = sqrt(p*(1-p)/n)
+sd
+#Since this is the sample size is small I will use quantile function
+q = quantile(p,0.95)
+q
+upper = round(p + q*sd,3)
+lower = round(p -q*sd,3)
+cat(paste("The 90% confidence interval is ",lower, ",", upper))
+
+
+
+
+
+
+
+# Answer (i) below:
+sd = sqrt(p*(1-p)/n)
+sd
+#Since this is the sample size is small I will use quantile function
+
+q = quantile(p,0.95)
+q
+
+#The margin of the error is 
+moe<-q*sd
+
+
+
+
+```
+
